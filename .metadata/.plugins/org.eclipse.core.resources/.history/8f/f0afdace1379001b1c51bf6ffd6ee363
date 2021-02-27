@@ -1,0 +1,28 @@
+package com.ceiba.proing.maestros.dao.impl;
+
+import java.util.List;
+
+import com.ceiba.proing.dm.maestros.Persona;
+import com.ceiba.proing.maestros.dao.decl.PersonaDAO;
+
+public class PersonaJpaDAO implements PersonaDAO {
+
+	@Override
+	public List<Persona> buscar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Persona buscarPorId(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Persona grabar(Persona persona) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

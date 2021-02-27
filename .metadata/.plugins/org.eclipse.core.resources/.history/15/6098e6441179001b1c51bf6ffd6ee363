@@ -1,0 +1,5 @@
+package com.ceiba.proing.dm.maestros;
+
+public class TipoIdentificacion {
+
+}

@@ -1,0 +1,5 @@
+package com.ceiba.proing.bussines.maestros;
+
+public class TipoIdentificacionBOImpl implements TipoIdentificacionBO {
+
+}

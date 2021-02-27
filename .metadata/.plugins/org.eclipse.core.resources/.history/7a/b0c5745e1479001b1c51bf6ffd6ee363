@@ -1,0 +1,27 @@
+package com.ceiba.proing.bussines.maestros;
+
+import java.util.List;
+
+import com.ceiba.proing.dm.maestros.Persona;
+
+public class PersonaBOImpl implements PersonaBO {
+
+	@Override
+	public List<Persona> buscar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Persona buscarPorId(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Persona grabar(Persona persona) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

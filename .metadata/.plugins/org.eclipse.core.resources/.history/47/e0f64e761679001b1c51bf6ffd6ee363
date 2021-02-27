@@ -1,0 +1,5 @@
+package com.ceiba.proing.maestros.dao.decl;
+
+public interface TipoIdentificacionBO {
+
+}

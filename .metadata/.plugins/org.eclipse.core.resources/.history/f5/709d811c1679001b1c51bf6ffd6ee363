@@ -1,0 +1,22 @@
+package com.ceiba.proing.controlador.maestros;
+
+import java.io.Serializable;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+@ViewScoped
+@ManagedBean(name = "administrarVacunacion")
+public class AdministrarVacunacion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	@PostConstruct
+	public void init() {
+	}
+
+}

@@ -1,0 +1,45 @@
+package com.ceiba.proing.bussines.maestros;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
+
+import com.ceiba.proing.dm.maestros.Persona;
+import com.ceiba.proing.maestros.dao.decl.PersonaDAO;
+
+public class PersonaBOImpl implements PersonaBO {
+
+	@Inject
+	private PersonaDAO personaDAO;
+
+	@Override
+	public List<Persona> buscar() {
+		try {
+			return personaDAO.buscar();
+		} catch (NoResultException ex) {
+			return null;
+		}
+	}
+
+	@Override
+	public Persona buscarPorId(long id) {
+		try {
+			return personaDAO.buscarPorId(id);
+		} catch (NoResultException ex) {
+			return null;
+		}
+	}
+
+	@Override
+	public Persona grabar(Persona persona) {
+		try {
+			return personaDAO.grabar(persona);
+		} catch (PersistenceException e) {
+			return null;
+		}
+
+	}
+
+}

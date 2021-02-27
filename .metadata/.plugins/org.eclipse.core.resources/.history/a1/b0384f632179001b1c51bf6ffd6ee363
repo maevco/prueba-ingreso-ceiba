@@ -1,0 +1,221 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition>
+	<p:panel id="pnlPersonaId">
+		<p:panelGrid styleClass="noBorders" id="pngPersonaId"
+			style="Width: 100%">
+
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="12">Datos Persona</p:column>
+				</p:row>
+			</f:facet>
+
+			<p:row>
+				<p:column>
+					<!-- Tipo identificacion -->
+					<p:outputLabel style="font-weight: bold;"
+						for="smnTipoIdentificacionId"
+						value="#{mensajesProing['proing.label.comun.tipo.identificacion']}" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="smnTipoIdentificacionId"
+						style="width: 90% !important"
+						value="#{administrarVacunacion.tipoIdentificacionId}"
+						required="true">
+						<f:selectItem itemValue="" itemLabel="Seleccione..." />
+						<f:selectItems
+							value="#{administrarVacunacion.listaTipoIdentificacion}" var="ti"
+							itemValue="#{ti.id}" itemLabel="#{ti.descripcion}" />
+					</p:selectOneMenu>
+				</p:column>
+
+				<p:column>
+					<!-- Numero Identificacion -->
+					<p:outputLabel style="font-weight: bold;"
+						for="txtNumeroIdentificacionId"
+						value="#{mensajesProing['proing.label.comun.numero.identificacion']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="txtNumeroIdentificacionId" required="true"
+						placeholder="#{mensajesProing['proing.label.comun.numero.identificacion']} "
+						onkeyup="$(this).val($(this).val().replace(/[^0-9 A-Z-]/g, ''));"
+						value="#{administrarVacunacion.persona.numeroIdentificacion}"
+						maxlength="15">
+						<p:ajax event="blur" process="@this"
+							listener="#{administrarVacunacion.validarDuplicidad}" />
+					</p:inputText>
+				</p:column>
+				
+				<p:column>
+					<!-- Fecha Desde-->
+					<p:outputLabel style="font-weight: bold;" for="calFechaDesdeId"
+						value="#{mensajesDataClinik['dataclinik.label.comun.fecha.desde']}" />
+				</p:column>
+
+				<p:column>
+					<p:calendar id="calFechaDesdeId" widgetVar="calfcdwidget"
+						required="true" showOn="button" pattern="dd/MM/yyyy" locale="es"
+						effect="fadeIn" style="width: 60%"
+						value="#{administrarTarifario.tarifario.fechaDesde}"
+						navigator="true">
+					</p:calendar>
+				</p:column>
+				
+				
+			</p:row>
+
+			<p:row>
+				<p:column>
+					<!-- Codigo habilitaciòn -->
+					<p:outputLabel style="font-weight: bold;"
+						for="txtCodigoHabilitacionId"
+						value="#{mensajesProing['proing.label.codigo.habilitacion']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="txtCodigoHabilitacionId" required="true"
+						placeholder="#{mensajesProing['proing.label.codigo.habilitacion']} "
+						onkeyup="$(this).val($(this).val().replace(/[^0-9 A-Z-]/g, ''));"
+						value="#{administrarVacunacion.prestador.codigoHabilitacion}"
+						maxlength="12">
+						<p:ajax event="blur" process="@this"
+							listener="#{administrarVacunacion.validarCodigoHabilitacion}" />
+					</p:inputText>
+				</p:column>
+
+				<p:column>
+					<!-- Razon social -->
+					<p:outputLabel style="font-weight: bold;" for="txtRazonSocialId"
+						value="#{mensajesProing['proing.label.razon.social']}" />
+				</p:column>
+				<p:column colspan="3">
+					<p:inputText id="txtRazonSocialId" required="true"
+						style="width: 94% !important"
+						placeholder="#{mensajesProing['proing.label.razon.social']} "
+						value="#{administrarVacunacion.prestador.razonSocial}"
+						maxlength="120" />
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column colspan="6">
+					<h4 style="margin-top: 0; color: #b24900">Datos de contacto</h4>
+					<p:separator />
+				</p:column>
+
+			</p:row>
+
+			<p:row>
+				<p:column>
+					<!-- Telefono -->
+					<p:outputLabel style="font-weight: bold;" for="txtTelefonoId"
+						value="#{mensajesProing['proing.label.comun.telefono']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="txtTelefonoId" required="true"
+						placeholder="#{mensajesProing['proing.label.comun.telefono']} "
+						onkeyup="$(this).val($(this).val().replace(/[^0-9 A-Z-]/g, ''));"
+						value="#{administrarVacunacion.prestador.telefono}" maxlength="15" />
+				</p:column>
+
+				<p:column>
+					<!-- Movil -->
+					<p:outputLabel style="font-weight: bold;"
+						value="#{mensajesProing['proing.label.comun.movil']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="txtMovilId"
+						placeholder="#{mensajesProing['proing.label.comun.movil']} "
+						value="#{administrarVacunacion.prestador.movil}" maxlength="15" />
+				</p:column>
+
+				<p:column>
+					<!-- Sitio web -->
+					<p:outputLabel style="font-weight: bold;"
+						value="#{mensajesProing['proing.label.sitio.web']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="txtSitioWebId"
+						placeholder="#{mensajesProing['proing.label.sitio.web']} "
+						value="#{administrarVacunacion.prestador.sitioWeb}"
+						maxlength="120" />
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column>
+					<!-- Correo electronico -->
+					<p:outputLabel style="font-weight: bold;"
+						for="txtCorreoElectronicoId"
+						value="#{mensajesProing['proing.label.correo.electronico']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="txtCorreoElectronicoId" required="true"
+						placeholder="#{mensajesProing['proing.label.correo.electronico']} "
+						value="#{administrarVacunacion.prestador.correoElectronico}"
+						maxlength="120" />
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column colspan="6">
+					<h4 style="margin-top: 0; color: #b24900">Datos de ubicaciòn</h4>
+					<p:separator />
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column>
+					<p:outputLabel style="font-weight: bold;" for="smnDepartamentoId"
+						value="#{mensajesProing['proing.label.comun.departamento']}" />
+				</p:column>
+
+				<p:column>
+					<p:selectOneMenu id="smnDepartamentoId"
+						style="width: 90% !important"
+						value="#{administrarVacunacion.departamentoId}" required="true">
+						<f:selectItem itemValue="" itemLabel="Seleccione..." />
+						<f:selectItems value="#{administrarVacunacion.listaDepartamento}"
+							var="d" itemValue="#{d.id}" itemLabel="#{d.descripcion}" />
+						<p:ajax listener="#{administrarVacunacion.buscarMunicipio}"
+							process="@this" update="smnMunicipioId"></p:ajax>
+					</p:selectOneMenu>
+				</p:column>
+
+				<p:column>
+					<p:outputLabel style="font-weight: bold;" for="smnMunicipioId"
+						value="#{mensajesProing['proing.label.comun.municipio']}" />
+				</p:column>
+
+				<p:column>
+					<p:selectOneMenu id="smnMunicipioId" style="width: 90% !important"
+						value="#{administrarVacunacion.municipioId}" required="true">
+						<f:selectItem itemValue="" itemLabel="Seleccione..." />
+						<f:selectItems value="#{administrarVacunacion.listaMunicipio}"
+							var="m" itemValue="#{m.id}" itemLabel="#{m.descripcion}" />
+					</p:selectOneMenu>
+				</p:column>
+
+				<p:column>
+					<!-- Direcciòn -->
+					<p:outputLabel style="font-weight: bold;" for="txtDireccionId"
+						value="#{mensajesProing['proing.label.comun.direccion']}" />
+				</p:column>
+				<p:column colspan="3">
+					<p:inputText id="txtDireccionId" required="true"
+						placeholder="#{mensajesProing['proing.label.comun.direccion']} "
+						value="#{administrarVacunacion.prestador.direccion}"
+						maxlength="120" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+
+	</p:panel>
+</ui:composition>
+</html>

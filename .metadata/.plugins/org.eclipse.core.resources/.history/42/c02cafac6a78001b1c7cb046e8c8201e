@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+          http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+		<param-value>server</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
+	<context-param>
+		<param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+		<param-value>6LfZFNwSAAAAAO3i-nD-fDCOu9n-HPSJTrbDgApp</param-value>
+	</context-param>
+	<context-param>
+		<param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+		<param-value>6LfZFNwSAAAAAMFpCq9VDkp4yOcTF5XUGbununjY</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<filter>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PrimeFaces FileUpload Filter</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+	</filter-mapping>
+	<servlet>
+		<servlet-name>Faces Servlet</servlet-name>
+		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Faces Servlet</servlet-name>
+		<url-pattern>*.xhtml</url-pattern>
+		<url-pattern>/sagem</url-pattern>
+	</servlet-mapping>
+	<session-config>
+		<session-timeout>360</session-timeout>
+	</session-config>
+	<context-param>
+		<param-name>primefaces.UPLOADER</param-name>
+		<param-value>commons</param-value>
+	</context-param>
+	<context-param>
+		<param-name>org.primefaces.extensions.DELIVER_UNCOMPRESSED_RESOURCES</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>qrCode</servlet-name>
+		<servlet-class>com.ems.sagem.controlador.onbase.QRCodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>qrCode</servlet-name>
+		<url-pattern>/qrCode</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>code128</servlet-name>
+		<servlet-class>com.ems.sagem.controlador.onbase.Code128Servlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>code128</servlet-name>
+		<url-pattern>/code128</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>barcode128</servlet-name>
+		<servlet-class>com.ems.sagem.controlador.onbase.BarcodeServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>barcode128</servlet-name>
+		<url-pattern>/barcode128</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>barcodeQrServlet</servlet-name>
+		<servlet-class>com.ems.sagem.controlador.onbase.BarcodeQrServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>barcodeQrServlet</servlet-name>
+		<url-pattern>/barcodeQrServlet</url-pattern>
+	</servlet-mapping>
+	<context-param>
+		<param-name>primefaces.THEME</param-name>
+		<param-value>blitzer</param-value>
+	</context-param>	
+	<!-- <servlet> <servlet-name>AdministrarFacturaElectronica</servlet-name> 
+		<servlet-class>com.ems.sagem.controlador.onbase.AdministrarFacturaElectronica</servlet-class> 
+		<load-on-startup>1000000000000</load-on-startup> </servlet> -->
+</web-app>

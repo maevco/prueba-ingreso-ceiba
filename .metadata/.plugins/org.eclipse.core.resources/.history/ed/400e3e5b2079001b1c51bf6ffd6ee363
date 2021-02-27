@@ -1,0 +1,10 @@
+proing.comun.label.prueba = Prueba
+proing.mesaje.comun.error.persistir = Error al momento de almacenar el registro
+proing.mensaje.comun.confirmar.persistir = Registro almacenado con exito
+proing.mensaje.comun.error.editar = Error al momento de editar el registro
+proing.mensaje.comun.confirmar.editar = Registro editado con exito
+proing.mensaje.comun.persona.existe = La persona que esta ingresando  ya se encuentra registrada
+proing.label.comun.guardar = Guardar
+proing.label.comun.nuevo = Nuevo
+proing.comun.label.buscar = Buscar
+proing.label.comun.editar = Editar  

@@ -1,0 +1,21 @@
+package com.ceiba.proing.bussines.maestros;
+
+import java.util.List;
+
+import com.ceiba.proing.dm.maestros.TipoIdentificacion;
+
+public class TipoIdentificacionBOImpl implements TipoIdentificacionBO {
+
+	@Override
+	public List<TipoIdentificacion> buscar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TipoIdentificacion buscarPorId(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,7 @@
+package com.ceiba.proing.controlador.maestros;
+
+import java.io.Serializable;
+
+public class AdministrarVacunacion implements Serializable {
+
+}

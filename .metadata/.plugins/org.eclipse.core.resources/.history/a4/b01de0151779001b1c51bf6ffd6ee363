@@ -1,0 +1,28 @@
+package com.ceiba.proing.maestros.dao.impl;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import com.ceiba.proing.dm.maestros.TipoIdentificacion;
+import com.ceiba.proing.maestros.dao.decl.TipoIdentificacionDAO;
+
+public class TipoIdentificacionJpaDAO implements TipoIdentificacionDAO {
+	
+	@PersistenceContext(name = "proing-dm")
+	private EntityManager entityManager;
+
+	@Override
+	public List<TipoIdentificacion> buscar() {
+		final String jpql = "SELECT ti FROM TipoIdentificacion ti";
+		return null;
+	}
+
+	@Override
+	public TipoIdentificacion buscarPorId(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

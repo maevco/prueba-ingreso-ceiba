@@ -1,0 +1,27 @@
+package com.ceiba.proing.bussines.maestros;
+
+import java.util.List;
+
+import javax.ejb.Stateless;
+
+import com.ceiba.proing.dm.maestros.TipoIdentificacion;
+
+@Stateless(name ="tipoIdentificaionBO")
+public class TipoIdentificacionBOImpl implements TipoIdentificacionBO {
+	
+	@Inject
+	private TipoIdentificacionDAO tipoIdentificacionDAO;
+
+	@Override
+	public List<TipoIdentificacion> buscar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TipoIdentificacion buscarPorId(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

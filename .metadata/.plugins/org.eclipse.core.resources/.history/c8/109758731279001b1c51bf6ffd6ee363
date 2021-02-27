@@ -1,0 +1,7 @@
+package com.ceiba.proing.maestros.dao.decl;
+
+public interface PersonaDAO {
+	
+	public Persona guardar(Persona);
+
+}

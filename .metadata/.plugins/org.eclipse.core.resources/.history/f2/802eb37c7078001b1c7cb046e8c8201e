@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+<h:head>
+	<title>Ceiba</title>
+
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/resources/css/skin.css" />
+
+	<link rel="shortcut icon" type="image/x-icon"
+		href="#{request.contextPath}/resources/image/ss.ico" />
+	<style type="text/css">
+.ui-selectonemenu {
+	width: 100% !important;
+}
+
+.ui-selectonemenu-label {
+	width: 100% !important;
+}
+
+.full-width {
+	width: 100% !important;
+}
+
+.myes .ui-widget {
+	font-size: 100% !important;
+}
+
+.myes .ui-layout-unit-content {
+	background-image: url('#{request.contextPath}/resources/image/head.jpg');
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	background-position: center center;
+}
+
+.ui-menu .ui-menuitem .ui-state-hover {
+	color: red;
+	background: #85b2cb;
+	-webkit-box-shadow: 0px 0px 8px #85b2cb;
+	box-shadow: 0px 0px 8px #85b2cb;
+}
+
+.ui-paginator-pages .ui-paginator-page {
+	background: white !important;
+	background-color: white !important;
+}
+
+.zoom {
+	zoom: 2;
+}
+
+.zoom-moz {
+	-moz-transform: scale(2);
+	-moz-transform-origin: 0 0;
+}
+
+}
+#container {
+	width: 100%;
+}
+
+#left {
+	float: left;
+	width: 100px;
+}
+
+#right {
+	float: right;
+	width: 130px;
+}
+
+#center {
+	margin: 0 auto;
+	width: 100px;
+}
+</style>
+
+
+
+	<!-- Cerrar Sesion  -->
+	<script type="text/javascript">
+		//<![CDATA[
+		function logout(xhr, status, args) {
+			setTimeout(function() {
+				window.location = '#{request.contextPath}/login.xhtml';
+			}, 500);
+		}
+		//]]>
+	</script>
+
+</h:head>
+<h:body>
+
+	<p:layout fullPage="true" id="lyPrincipalId">
+
+		<p:layoutUnit position="north" size="110" resizable="true"
+			closable="false" collapsible="true" effectSpeed="10"
+			styleClass="myes">
+
+			<h:form prependId="false" style="background: transparent!important">
+				<div id="container">
+					<div id="left"></div>
+					<div id="right">
+						<table>
+							<tr>
+								<td><img
+									src="#{request.contextPath}/resources/image/logout.png"
+									width="50%" vspace="5" hspace="6" height="80%" alt="salir" /></td>
+								<td><img
+									src="#{request.contextPath}/resources/image/usersesion.png"
+									width="50%" vspace="10" hspace="6" height="80%" /></td>
+
+							</tr>
+
+							<tr>
+								<td><p:commandLink oncomplete="logout(xhr, status, args)"
+										actionListener="#{loginBean.logout()}" process="@this">
+										<h:outputText value="Salir"
+											style="font-family: segoe ui,Arial,sans-serif; font-size: 0.9em;" />
+									</p:commandLink></td>
+								<td><h:outputText
+										value="#{loginBean.usuario.persona.primerNombre}"
+										style="font-family: segoe ui,Arial,sans-serif; font-size: 0.9em;  " />
+								</td>
+							</tr>
+						</table>
+
+					</div>
+
+				</div>
+
+
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="west" size="8px" header="Menu"
+			resizable="true" closable="false" collapsible="true" id="luMenuId">
+			<h:form id="menuFormControl">
+				<p:menu style="width: 142px">
+					<p:submenu label="Clientes">
+						<p:menuitem value="Ingresar" action="#{menuView.save}" icon="pi pi-save" />
+						<p:menuitem value="Actualizar" action="#{menuView.update}" 	 icon="pi pi-refresh" />
+					</p:submenu>
+				</p:menu>
+			</h:form>
+		</p:layoutUnit>
+
+
+
+		<p:layoutUnit position="east" size="8%" header="Ayuda"
+			resizable="true" closable="true" collapsible="true" effect="drop"
+			collapsed="true">
+			<ui:insert name="ayuda"></ui:insert>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center" size="65%">
+			<ui:insert name="content"></ui:insert>
+			<ui:include src="sessionTimeOut.xhtml" />
+		</p:layoutUnit>
+	</p:layout>
+
+</h:body>
+</html>
+
+<!-- background-image:
+		url('#{request.contextPath}/resources/image/sigem.png'); -->

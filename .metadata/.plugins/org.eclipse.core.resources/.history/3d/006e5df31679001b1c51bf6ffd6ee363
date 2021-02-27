@@ -1,0 +1,22 @@
+package com.ceiba.proing.maestros.dao.impl;
+
+import java.util.List;
+
+import com.ceiba.proing.dm.maestros.TipoIdentificacion;
+import com.ceiba.proing.maestros.dao.decl.TipoIdentificacionDAO;
+
+public class TipoIdentificacionJpaDAO implements TipoIdentificacionDAO {
+
+	@Override
+	public List<TipoIdentificacion> buscar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TipoIdentificacion buscarPorId(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

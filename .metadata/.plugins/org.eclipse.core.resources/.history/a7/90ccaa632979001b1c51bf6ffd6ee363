@@ -1,0 +1,163 @@
+package com.ceiba.proing.controlador.maestros;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+import com.ceiba.proing.bussines.maestros.GeneroBO;
+import com.ceiba.proing.bussines.maestros.PersonaBO;
+import com.ceiba.proing.bussines.maestros.TipoIdentificacionBO;
+import com.ceiba.proing.controlador.utilidad.Utilidad;
+import com.ceiba.proing.dm.maestros.Genero;
+import com.ceiba.proing.dm.maestros.Persona;
+import com.ceiba.proing.dm.maestros.TipoIdentificacion;
+
+@ViewScoped
+@ManagedBean(name = "administrarVacunacion")
+public class AdministrarVacunacion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/* EJB's */
+	@EJB
+	private transient PersonaBO personaBO;
+	@EJB
+	private transient TipoIdentificacionBO tipoIdentificacionBO;
+	@EJB
+	private transient GeneroBO generoBO;
+
+	/* Listas */
+	private List<TipoIdentificacion> listaTipoIdentificacion;
+	private List<Genero> listaGenero;
+
+	/* Entidades */
+	private Persona persona;
+
+	/* Primitivos */
+	private long tipoIdentificacionId;
+	private long generoId;
+	private boolean banderaGuardar;
+
+	@PostConstruct
+	public void init() {
+		inicializar();
+		cargarPersona(true);
+	}
+
+	public void cargarPersona(boolean ultimo) {
+		if (ultimo) {
+			persona = personaBO.buscarUltimo();
+			if (persona != null) {
+				banderaGuardar = false;
+				cargarInformacionAdicional();
+			} else {
+				banderaGuardar = true;
+				persona = new Persona();
+			}
+		}
+	}
+
+	public void validarDuplicidad() {
+		if (personaBO.buscarTipoNumeroIdentificacion(tipoIdentificacionId, persona.getNumeroIdentificacion())!= null) {
+			Utilidad.lanzaMensajeError2("proing.mensaje.comun.persona.existe","");
+			banderaGuardar = false;
+		}
+	}
+	
+	public void cargarInformacionAdicional() {
+		tipoIdentificacionId = persona.getTipoIdentificacion() != null ? persona.getTipoIdentificacion().getId(): 0;		
+		generoId = persona.getGenero() != null ? persona.getGenero().getId(): 0;		
+		Utilidad.ejecutarUpdate(Utilidad.buscarHtmlComponete("pnlPrincipalId").getClientId());
+
+	}
+
+	public void guardarPersona(boolean editar) {		
+		if (!editar) {
+			if (personaBO.grabar(persona) != null) {
+				Utilidad.lanzaMensajeError("proing.mensaje.comun.confirmar.persistir");
+				banderaGuardar = false;
+			} else {
+				Utilidad.lanzaMensajeInfo("proing.mesaje.comun.error.persistir");
+			}
+		} else {
+			persona.setTipoIdentificacion(tipoIdentificacionBO.buscarPorId(tipoIdentificacionId));
+			persona.setGenero(generoBO.buscarPorId(generoId));
+			if (personaBO.editar(persona) != null) {
+				Utilidad.lanzaMensajeError("proing.mensaje.comun.confirmar.editar");
+				banderaGuardar = false;
+			} else {
+				Utilidad.lanzaMensajeInfo("proing.mensaje.comun.error.editar");
+			}
+		}
+	}
+
+	public void nuevaPersona() {
+		banderaGuardar = true;
+		inicializar();
+	}
+
+	public void inicializar() {
+		persona = new Persona();
+		listaTipoIdentificacion = tipoIdentificacionBO.buscar();
+		listaGenero = generoBO.buscar();
+		tipoIdentificacionId=0;
+		generoId=0;
+	}
+
+	/* Getter y Setter */
+	public List<TipoIdentificacion> getListaTipoIdentificacion() {
+		return listaTipoIdentificacion;
+	}
+
+	public void setListaTipoIdentificacion(List<TipoIdentificacion> listaTipoIdentificacion) {
+		this.listaTipoIdentificacion = listaTipoIdentificacion;
+	}
+
+	public List<Genero> getListaGenero() {
+		return listaGenero;
+	}
+
+	public void setListaGenero(List<Genero> listaGenero) {
+		this.listaGenero = listaGenero;
+	}
+
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
+
+	public boolean isBanderaGuardar() {
+		return banderaGuardar;
+	}
+
+	public void setBanderaGuardar(boolean banderaGuardar) {
+		this.banderaGuardar = banderaGuardar;
+	}
+
+	public long getTipoIdentificacionId() {
+		return tipoIdentificacionId;
+	}
+
+	public void setTipoIdentificacionId(long tipoIdentificacionId) {
+		this.tipoIdentificacionId = tipoIdentificacionId;
+	}
+
+	public long getGeneroId() {
+		return generoId;
+	}
+
+	public void setGeneroId(long generoId) {
+		this.generoId = generoId;
+	}
+
+}

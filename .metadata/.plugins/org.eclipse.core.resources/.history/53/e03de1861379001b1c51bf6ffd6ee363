@@ -1,0 +1,13 @@
+package com.ceiba.proing.maestros.dao.decl;
+
+
+import com.ceiba.proing.dm.maestros.
+public interface PersonaDAO {
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Persona guardar(Persona persona);
+
+}

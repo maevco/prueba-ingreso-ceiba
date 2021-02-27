@@ -1,0 +1,263 @@
+package com.ceiba.proing.controlador.utilidad;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.el.MethodExpression;
+import javax.el.ValueExpression;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.primefaces.context.RequestContext;
+
+public final class Utilidad {
+	private final static String JS_TRY = "try{";
+	private final static String JS_CATH = " }catch(err){console.info('ERROR [com.hds.commons.controlador.util.Utilidad] '+err)}";
+
+	private final static Logger log = Logger
+			.getLogger(Utilidad.class.getName());
+
+	public static void buscarHtmlComponente() {
+
+	}
+
+	public static MethodExpression crear_MethodExpression(
+			String valueExpression, Class<?> valueType,
+			Class<?>[] expectedParamTypes) {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		return facesContext
+				.getApplication()
+				.getExpressionFactory()
+				.createMethodExpression(facesContext.getELContext(),
+						valueExpression, valueType, expectedParamTypes);
+	}
+
+	public static ValueExpression crear_ValueExpression(String valueExpression,
+			Class<?> expectedParamTypes) {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+		return facesContext
+				.getApplication()
+				.getExpressionFactory()
+				.createValueExpression(facesContext.getELContext(),
+						valueExpression, expectedParamTypes);
+	}
+
+	public static void ejecutarJavaScript(String js) {
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute(JS_TRY + js + JS_CATH);
+	}
+
+	public static void ejecutarUpdate(String id) {
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.update(id);
+	}
+
+	public static UIComponent buscarHtmlComponete(String idComponete) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (null != context) {
+			return buscarHtmlComponete(context.getViewRoot(), idComponete);
+		}
+		return null;
+	}
+
+	public static UIComponent buscarHtmlComponete(UIComponent parent,
+			String idComponete) {
+		if (idComponete.equals(parent.getId())) {
+			return parent;
+		}
+		Iterator<UIComponent> kids = parent.getFacetsAndChildren();
+		while (kids.hasNext()) {
+			UIComponent kid = kids.next();
+			UIComponent found = buscarHtmlComponete(kid, idComponete);
+			if (found != null) {
+				return found;
+			}
+		}
+		return null;
+	}
+
+	public static void redireccionar(String url) {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext()
+					.redirect(url);
+		} catch (IOException e) {
+			log.info("ERROR al redireccionar()" + e.getMessage());
+		}
+	}
+
+	public static String getJndi(Class<?> clase) {
+		StringBuilder jndi = new StringBuilder();
+		jndi.append("java:global/global-vpm-ear/global-vpm-web-1.0-SNAPSHOT/");
+		jndi.append(upCapitalize(clase.getSimpleName()));
+		jndi.append("!");
+		jndi.append(clase.getName());
+		return jndi.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getEjb(Class<?> claseBO) {
+		try {
+			Context JNDIcontext;
+			JNDIcontext = new InitialContext();
+			String jndiNombe = Utilidad.getJndi(claseBO);
+			return (T) JNDIcontext.lookup(jndiNombe);
+		} catch (NamingException e) {
+			log.info("\t\tERROR obteniendo Ejb " + e.getMessage());
+		} catch (Exception e) {
+			log.info("\t\tERROR obteniendo Ejb " + e.getMessage());
+		}
+		return null;
+	}
+
+	public static String capitalize(String cadena) {
+		String primera = cadena.substring(0, 1);
+		cadena = cadena.substring(1);
+		return primera.toUpperCase() + cadena;
+	}
+
+	public static String upCapitalize(String cadena) {
+		String primera = cadena.substring(0, 1);
+		cadena = cadena.substring(1);
+		return primera.toLowerCase() + cadena;
+	}
+
+	public static String obtenerUUID() {
+		return java.util.UUID.randomUUID().toString();
+	}
+
+	// Contenido de la clase Utilidades
+	@SuppressWarnings("unchecked")
+	public static <T> T clonarObjecto(T objecto) {
+		T objectoClonado = null;
+		if (objecto == null) {
+			return null;
+		} else {
+			try {
+				objectoClonado = (T) BeanUtils.cloneBean(objecto);
+			} catch (IllegalAccessException illegalAccessException) {
+				objectoClonado = null;
+			} catch (InstantiationException instantiationException) {
+				objectoClonado = null;
+			} catch (InvocationTargetException invocationTargetException) {
+				objectoClonado = null;
+			} catch (NoSuchMethodException noSuchMethodException) {
+				objectoClonado = null;
+			}
+			return objectoClonado;
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> clonarListaObjectos(List<T> listaObjectos) {
+		List<T> listaObjectosClonados = new ArrayList<T>();
+		T objectoClonado = null;
+		try {
+			for (T objecto : listaObjectos) {
+				objectoClonado = (T) BeanUtils.cloneBean(objecto);
+				listaObjectosClonados.add(objectoClonado);
+			}
+
+		} catch (IllegalAccessException illegalAccessException) {
+			listaObjectosClonados = null;
+		} catch (InstantiationException instantiationException) {
+			listaObjectosClonados = null;
+		} catch (InvocationTargetException invocationTargetException) {
+			listaObjectosClonados = null;
+		} catch (NoSuchMethodException noSuchMethodException) {
+			listaObjectosClonados = null;
+		} catch (UnsupportedOperationException unsupportedOperationException) {
+			listaObjectosClonados = null;
+		} catch (ClassCastException classCastException) {
+			listaObjectosClonados = null;
+		} catch (IllegalArgumentException illegalArgumentException) {
+			listaObjectosClonados = null;
+		} catch (Exception e) {
+			listaObjectosClonados = null;
+		}
+		return listaObjectosClonados;
+	}
+
+	public static void lanzarMensaje(String mensaje,
+			FacesMessage.Severity tipoMensaje) {
+		FacesMessage msg = new FacesMessage(mensaje);
+		msg.setSeverity(tipoMensaje);
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
+
+	public static void lanzaMensajeError(String mensaje) {
+		JsfMessageService.displayStaticMessage(
+				JsfMessageService.SourceBundle.COMUN,
+				JsfMessageService.MessageSeverity.SEVERITY_ERROR, mensaje,
+				mensaje);
+	}
+
+	public static void lanzaMensajeInfo(String mensaje) {
+		JsfMessageService.displayStaticMessage(
+				JsfMessageService.SourceBundle.COMUN,
+				JsfMessageService.MessageSeverity.SEVERITY_INFO, mensaje,
+				mensaje);
+	}
+
+	public static void lanzaMensajeWarn(String mensaje) {
+		JsfMessageService.displayStaticMessage(
+				JsfMessageService.SourceBundle.COMUN,
+				JsfMessageService.MessageSeverity.SEVERITY_WARN, mensaje,
+				mensaje);
+	}
+
+	public static void lanzaMensajeInfo2(String mensaje, String mensaje2) {
+		JsfMessageService.displayStaticMessage2(
+				JsfMessageService.SourceBundle.COMUN,
+				JsfMessageService.MessageSeverity.SEVERITY_INFO, mensaje,
+				mensaje2);
+	}
+	
+	public static void lanzaMensajeError2(String mensaje,  String mensaje2) {
+		JsfMessageService.displayStaticMessage2(
+				JsfMessageService.SourceBundle.COMUN,
+				JsfMessageService.MessageSeverity.SEVERITY_ERROR, mensaje,
+				mensaje2);
+	}
+
+
+	public static String MD5(String text) throws NoSuchAlgorithmException,
+			UnsupportedEncodingException {
+		MessageDigest md;
+		md = MessageDigest.getInstance("MD5");
+		
+		md.update(text.getBytes("iso-8859-1"), 0, text.length());
+		final byte[] md5hash = md.digest();
+		return convertToHex(md5hash);
+		
+	}
+	
+	private static String convertToHex(byte[] data) {
+        final StringBuffer buf = new StringBuffer();
+        for (int i = 0; i < data.length; i++) {
+            int halfbyte = (data[i] >>> 4) & 0x0F;
+            int twoHalfs = 0;
+            do {
+                if ((0 <= halfbyte) && (halfbyte <= 9)) {
+                    buf.append((char) ('0' + halfbyte));
+                } else {
+                    buf.append((char) ('a' + (halfbyte - 10)));
+                }
+                halfbyte = data[i] & 0x0F;
+            } while (twoHalfs++ < 1);
+        }
+        return buf.toString();
+    }
+
+}

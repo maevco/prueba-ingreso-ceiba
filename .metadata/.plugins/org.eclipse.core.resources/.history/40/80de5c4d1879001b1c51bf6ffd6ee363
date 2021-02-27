@@ -1,0 +1,21 @@
+package com.ceiba.proing.bussines.maestros;
+
+import java.util.List;
+
+import com.ceiba.proing.dm.maestros.Genero;
+
+public class GeneroBOImpl  implements GeneroBO{
+
+	@Override
+	public List<Genero> buscar() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Genero buscarPorId(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

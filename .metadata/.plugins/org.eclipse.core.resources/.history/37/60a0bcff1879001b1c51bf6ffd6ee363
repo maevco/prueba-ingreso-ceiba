@@ -1,0 +1,66 @@
+package com.ceiba.proing.controlador.maestros;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+import com.ceiba.proing.bussines.maestros.GeneroBO;
+import com.ceiba.proing.bussines.maestros.PersonaBO;
+import com.ceiba.proing.bussines.maestros.TipoIdentificacionBO;
+import com.ceiba.proing.dm.maestros.Genero;
+import com.ceiba.proing.dm.maestros.TipoIdentificacion;
+
+@ViewScoped
+@ManagedBean(name = "administrarVacunacion")
+public class AdministrarVacunacion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/* EJB's */
+	@EJB
+	private transient PersonaBO personaBO;
+	@EJB
+	private transient TipoIdentificacionBO tipoIdentificacionBO;
+	@EJB
+	private transient GeneroBO generoBO;
+
+	/* Listas */
+	private List<TipoIdentificacion> listaTipoIdentificacion;
+	private List<Genero> listaGenero;
+	
+	/* Entidades */
+	private Persona persona;
+	
+	
+	
+	/* Primitivos */
+
+	@PostConstruct
+	public void init() {
+	}
+
+	/* Getter y Setter */
+	public List<TipoIdentificacion> getListaTipoIdentificacion() {
+		return listaTipoIdentificacion;
+	}
+
+	public void setListaTipoIdentificacion(List<TipoIdentificacion> listaTipoIdentificacion) {
+		this.listaTipoIdentificacion = listaTipoIdentificacion;
+	}
+
+	public List<Genero> getListaGenero() {
+		return listaGenero;
+	}
+
+	public void setListaGenero(List<Genero> listaGenero) {
+		this.listaGenero = listaGenero;
+	}
+
+}

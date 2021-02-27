@@ -1,0 +1,28 @@
+package com.ceiba.proing.bussines.maestros;
+
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.persistence.NoResultException;
+
+import com.ceiba.proing.dm.maestros.Genero;
+
+@Stateless(name = "generoBO")
+public class GeneroBOImpl  implements GeneroBO{
+
+	@Override
+	public List<Genero> buscar() {
+		try {
+			return tipoIdentificacionDAO.buscar();			
+		}catch (NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public Genero buscarPorId(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,98 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<ui:composition>
+	<p:panel id="pnlPersonaId">
+		<p:panelGrid styleClass="noBorders" id="pngPersonaId"
+			style="Width: 100%">
+
+			<f:facet name="header">
+				<p:row>
+					<p:column colspan="12">Datos Persona</p:column>
+				</p:row>
+			</f:facet>
+
+			<p:row>
+				<p:column>
+					<!-- Tipo identificacion -->
+					<p:outputLabel style="font-weight: bold;"
+						for="smnTipoIdentificacionId"
+						value="#{mensajesProing['proing.label.comun.tipo.identificacion']}" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="smnTipoIdentificacionId"
+						style="width: 90% !important"
+						value="#{administrarVacunacion.tipoIdentificacionId}"
+						required="true">
+						<f:selectItem itemValue="" itemLabel="Seleccione..." />
+						<f:selectItems
+							value="#{administrarVacunacion.listaTipoIdentificacion}" var="ti"
+							itemValue="#{ti.id}" itemLabel="#{ti.descripcion}" />
+					</p:selectOneMenu>
+				</p:column>
+
+				<p:column>
+					<!-- Numero Identificacion -->
+					<p:outputLabel style="font-weight: bold;"
+						for="txtNumeroIdentificacionId"
+						value="#{mensajesProing['proing.label.comun.numero.identificacion']}" />
+				</p:column>
+				<p:column>
+					<p:inputText id="txtNumeroIdentificacionId" required="true"
+						placeholder="#{mensajesProing['proing.label.comun.numero.identificacion']} "
+						onkeyup="$(this).val($(this).val().replace(/[^0-9 A-Z-]/g, ''));"
+						value="#{administrarVacunacion.persona.numeroIdentificacion}"
+						maxlength="15">
+						<p:ajax event="blur" process="@this"
+							listener="#{administrarVacunacion.validarDuplicidad}" />
+					</p:inputText>
+				</p:column>
+
+				<p:column>
+					<!-- Fecha Nacimiento-->
+					<p:outputLabel style="font-weight: bold;"
+						for="calFechaNacimientoId"
+						value="#{mensajesProing['proing.label.comun.fecha.nacimiento']}" />
+				</p:column>
+
+				<p:column>
+					<p:calendar id="calFechaNacimientoId" widgetVar="calfndwidget"
+						required="true" showOn="button" pattern="dd/MM/yyyy" locale="es"
+						effect="fadeIn" style="width: 60%"
+						value="#{administrarVacunacion.persona.fechaNacimiento}"
+						navigator="true">
+					</p:calendar>
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column>
+					<!-- Genero -->
+					<p:outputLabel style="font-weight: bold;"
+						for="smnGeneroId"
+						value="#{mensajesProing['proing.label.comun.tipo.identificacion']}" />
+				</p:column>
+				<p:column>
+					<p:selectOneMenu id="smnTipoIdentificacionId"
+						style="width: 90% !important"
+						value="#{administrarVacunacion.tipoIdentificacionId}"
+						required="true">
+						<f:selectItem itemValue="" itemLabel="Seleccione..." />
+						<f:selectItems
+							value="#{administrarVacunacion.listaTipoIdentificacion}" var="ti"
+							itemValue="#{ti.id}" itemLabel="#{ti.descripcion}" />
+					</p:selectOneMenu>
+				</p:column>
+
+			</p:row>
+
+		</p:panelGrid>
+
+	</p:panel>
+</ui:composition>
+</html>

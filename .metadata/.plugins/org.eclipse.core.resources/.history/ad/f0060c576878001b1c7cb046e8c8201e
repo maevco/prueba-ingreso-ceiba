@@ -1,0 +1,103 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.ceiba</groupId>
+		<artifactId>proing</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>proing-ear</artifactId>
+	<packaging>ear</packaging>
+	<description>Proyecto Ceiba</description>
+	<profiles>
+		<profile>
+			<id>env-dev</id>
+			<properties>
+				<env>dev</env>
+			</properties>
+			<!-- <dependencies> <dependency> <groupId>com.cuaderno</groupId> <artifactId>vpm-dev</artifactId> 
+				</dependency> </dependencies> -->
+			<build>
+
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-ear-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>env-prod</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<env>prod</env>
+			</properties>
+			<!-- <dependencies> <dependency> <groupId>com.cuaderno</groupId> <artifactId>cuaderno-seam-desarrollo</artifactId> 
+				</dependency> </dependencies> -->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-ear-plugin</artifactId>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<dependencies>
+		<!-- Depend on the ejb module and war so that we can package them -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>${app.context}-web</artifactId>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>${app.context}-ejb</artifactId>
+			<version>${project.version}</version>
+			<type>ejb</type>
+		</dependency>
+	</dependencies>
+	<build>
+		<finalName>proing</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.10.1</version>
+				<configuration>
+					<!-- Tell Maven we are using Java EE 6 -->
+					<version>7</version>
+					<!-- Use Java EE ear libraries as needed. Java EE ear libraries are 
+						in easy way to package any libraries needed in the ear, and automatically 
+						have any modules (EJB-JARs and WARs) use them -->
+					<defaultLibBundleDir>lib</defaultLibBundleDir>
+					<modules>
+						<!-- Register our War as a web module, and set the context root -->
+						<webModule>
+							<groupId>com.ems</groupId>
+							<artifactId>proing-web</artifactId>
+							<!-- Define the context root for the webapp -->
+							<contextRoot>/proing</contextRoot>
+						</webModule>
+					</modules>
+				</configuration>
+			</plugin>
+			<!-- The JBoss AS plugin deploys your ear to a local JBoss AS container -->
+			<!-- Due to Maven's lack of intelligence with EARs we need to configure 
+				the jboss-as maven plugin to skip deployment for all modules. We then enable 
+				it specifically in the ear module. -->
+			<plugin>
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

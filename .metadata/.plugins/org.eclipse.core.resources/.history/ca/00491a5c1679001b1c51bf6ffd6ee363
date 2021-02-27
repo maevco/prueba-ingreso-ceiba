@@ -1,0 +1,31 @@
+package com.ceiba.proing.controlador.maestros;
+
+import java.io.Serializable;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+import com.ceiba.proing.bussines.maestros.PersonaBO;
+
+@ViewScoped
+@ManagedBean(name = "administrarVacunacion")
+public class AdministrarVacunacion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@EJB
+	private transient PersonaBO personaBO;
+	@EJB
+	private transient TipoIdentificacionBO tipoIdentificacionBO;
+	@EJB
+	provate transient GeneroBO generoBO;
+
+	@PostConstruct
+	public void init() {
+	}
+
+}

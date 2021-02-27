@@ -1,0 +1,8 @@
+package com.ceiba.proing.bussines.maestros;
+
+@Local
+public interface PersonaBO {
+	
+	
+
+}

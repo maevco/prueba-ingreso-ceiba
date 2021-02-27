@@ -1,0 +1,7 @@
+package com.ceiba.proing.maestros.dao.impl;
+
+import com.ceiba.proing.maestros.dao.decl.TipoIdentificacionDAO;
+
+public class TipoIdentificacionJpaDAO implements TipoIdentificacionDAO {
+
+}

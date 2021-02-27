@@ -1,0 +1,243 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ceiba</groupId>
+	<artifactId>proing</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Proyecto Ceiba</name>
+	<modules>
+		<module>proing-bo</module>
+		<module>proing-commons</module>
+		<module>proing-dao</module>
+		<module>proing-dm</module>
+		<module>proing-ear</module>
+		<module>proing-ejb</module>
+		<module>proing-web</module>
+		<module>proing-ws</module>
+	</modules>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<app>proing</app>
+		<app.context>proing</app.context> <!-- hint: same value as artifactId -->
+		<app.web.context>${app.context}</app.web.context>
+		<app.display.name>proing</app.display.name>
+		<app.description>proing base</app.description>
+		<app.distributable>false</app.distributable>
+	</properties>
+	<profiles>
+		<profile>
+			<id>env-dev</id>
+			<properties>
+				<env>dev</env>
+				<!-- En desarrollo se usa un mismo archivo de filtro para todos los pom 
+					que se ubica en el src del proyecto -->
+				<filter.module.src>..</filter.module.src>
+				<filter.submodule.src>../..</filter.submodule.src>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-prod</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<env>prod</env>
+			</properties>
+		</profile>
+		<profile>
+			<id>show-properties</id>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<tasks>
+										<echo>project.artifactId : ${project.artifactId}</echo>
+										<echo>env : ${env}</echo>
+										<echo>app.context : ${app.context}</echo>
+										<echo>app.unpack.modules : ${app.unpack.modules}</echo>
+										<echo>project.parent.basedir : ${project.parent.basedir}</echo>
+										<echo>project.basedir :${project.basedir}</echo>
+										<echo>project.build.directory : ${project.build.directory}</echo>
+										<echo>jdk.source : ${jdk.source}</echo>
+										<echo>jdk.target : ${jdk.target}</echo>
+										<echo>jdk.debug : ${jdk.debug}</echo>
+										<echo>jdk.optimize : ${jdk.optimize}</echo>
+										<echo>as : ${as}</echo>
+										<echo>as.version : ${as.version}</echo>
+										<echo>as.deploy : ${as.deploy}</echo>
+										<echo>ds : ${ds}</echo>
+										<echo>ds.connection.url: ${ds.connection.url}</echo>
+										<echo>ds.xml : ${ds.xml}</echo>
+										<echo>pu.hibernate.dialect : ${pu.hibernate.dialect}</echo>
+										<echo>pu.hibernate.show_sql : ${pu.hibernate.show_sql}</echo>
+										<echo>ds.test : ${ds.test}</echo>
+										<echo>ds.connection.url.test : ${ds.connection.url.test}</echo>
+										<echo>pu.hibernate.dialect.test : ${pu.hibernate.dialect.test}</echo>
+										<echo>pu.hibernate.show_sql.test:
+											${pu.hibernate.show_sql.test}</echo>
+									</tasks>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>${app.context}-bo</artifactId>
+				<version>${project.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>${app.context}-commons</artifactId>
+				<version>${project.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>${app.context}-dao</artifactId>
+				<version>${project.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>${app.context}-dm</artifactId>
+				<version>${project.version}</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>${app.context}-ear</artifactId>
+				<version>${project.version}</version>
+				<type>ear</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>${app.context}-ejb</artifactId>
+				<version>${project.version}</version>
+				<type>ejb</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>${app.context}-web</artifactId>
+				<version>${project.version}</version>
+				<type>war</type>
+			</dependency>
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>${app.context}-ws</artifactId>
+				<version>${project.version}</version>
+				<type>jar</type>
+			</dependency>
+			<!-- Define the version of JBoss' Java EE 6 APIs we want to import. Any 
+				defined by this a Bill dependencies from org.jboss.spec will have their version 
+				BOM -->
+			<!-- JBoss distributes a complete set of Java EE 6 APIs including of Materials 
+				(BOM). A BOM specifies the versions of a "stack" (or a collection) of artifacts. 
+				We use this here so that we always get the correct versions of artifacts. 
+				Here we use the jboss-javaee-web-6.0 stack (you can read this as the JBoss 
+				stack of the Java EE Web Profile 6 APIs), and we use version 2.0.0.Beta1 
+				which is the latest release of the stack. You can actually use this stack 
+				with any version of JBoss AS that implements Java EE 6, not just JBoss AS 
+				7! -->
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-web-7.0</artifactId>
+				<version>1.0.0.Final</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- JSR-303 (Bean Validation) Implementation -->
+			<!-- Provides portable constraints such as @Email -->
+			<!-- Hibernate Validator is shipped in JBoss AS 7 -->
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-validator</artifactId>
+				<version>5.2.4.Final</version>
+				<scope>provided</scope>
+				<exclusions>
+					<exclusion>
+						<groupId>org.slf4j</groupId>
+						<artifactId>slf4j-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<!-- Test dependencies -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<type>jar</type>
+				<scope>test</scope>
+			</dependency>
+			<!--powermock -->
+			<dependency>
+				<groupId>org.powermock</groupId>
+				<artifactId>powermock-api-mockito</artifactId>
+				<scope>test</scope>
+				<version>1.6.2</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<!-- Compiler plugin enforces Java 1.6 compatibility and activates annotation 
+					processors -->
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.5.1</version>
+					<configuration>
+						<fork>true</fork>
+						<executable>C:\Program Files\Java\jdk1.8.0_91\bin\javac.exe</executable>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+				<!-- The JBoss AS plugin deploys your ear to a local JBoss AS container -->
+				<!-- Due to Maven's lack of intelligence with EARs we need the jboss-as 
+					maven plugin to skip deployment for all modules. We then enable it specifically 
+					in the ear module. -->
+				<plugin>
+					<groupId>org.jboss.as.plugins</groupId>
+					<artifactId>jboss-as-maven-plugin</artifactId>
+					<version>7.8.Final</version>
+					<inherited>true</inherited>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	<organization>
+		<name>Emssanar</name>
+		<url>http://www.emssanar.org.co/</url>
+	</organization>
+	<developers>
+		<developer>
+			<id>manuelvillacriz@emssanar.org.co</id>
+			<name>Manuel Villacriz Cordoba</name>
+			<email>manuelvillacriz@emssanar.org.co</email>
+			<organization>Emssanar</organization>
+			<roles>
+				<role>Arquitecto</role>
+			</roles>
+			<timezone>GMT -6</timezone>
+		</developer>
+	</developers>
+</project>

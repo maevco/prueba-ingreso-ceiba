@@ -1,0 +1,153 @@
+package com.ceiba.proing.controlador.maestros;
+
+import java.io.Serializable;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+import com.ceiba.proing.bussines.maestros.GeneroBO;
+import com.ceiba.proing.bussines.maestros.PersonaBO;
+import com.ceiba.proing.bussines.maestros.TipoIdentificacionBO;
+import com.ceiba.proing.controlador.utilidad.Utilidad;
+import com.ceiba.proing.dm.maestros.Genero;
+import com.ceiba.proing.dm.maestros.Persona;
+import com.ceiba.proing.dm.maestros.TipoIdentificacion;
+
+@ViewScoped
+@ManagedBean(name = "administrarVacunacion")
+public class AdministrarVacunacion implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/* EJB's */
+	@EJB
+	private transient PersonaBO personaBO;
+	@EJB
+	private transient TipoIdentificacionBO tipoIdentificacionBO;
+	@EJB
+	private transient GeneroBO generoBO;
+
+	/* Listas */
+	private List<TipoIdentificacion> listaTipoIdentificacion;
+	private List<Genero> listaGenero;
+
+	/* Entidades */
+	private Persona persona;
+
+	/* Primitivos */
+	private long tipo_identificacion_id;
+	private long genero_id;
+	private boolean banderaGuardar;
+
+	@PostConstruct
+	public void init() {
+		inicializar();
+	}
+	
+	public void cargarCredito(boolean ultimo) {
+		if(ultimo){
+			credito = creditoBO.buscarUltimo();
+			if(credito != null){
+				banderaGuardar = false;				
+			}else{
+				banderaGuardar = true;
+				credito = new Credito();
+			}
+		}	
+	}
+	
+	public void guardarPersona(boolean editar) {		
+		if(!editar){
+			if(personaBO.grabar(persona) != null) {
+				Utilidad.lanzaMensajeError("proing.mesaje.comun.error.persistir");
+				banderaGuardar = false;
+			} else {
+				Utilidad.lanzaMensajeInfo("sagem.mensaje.comun.confirmar.persistir");
+			}			
+		}else {
+			if(creditoBO.editar(credito) != null) {
+				Utilidad.lanzaMensajeError("sagem.mensaje.comun.error.editar");
+				banderaGuardar = false;
+			} else{
+				Utilidad.lanzaMensajeInfo("sagem.mensaje.comun.confirmar.editar");
+			}
+		}		
+	}
+	
+
+	public void grabar() {
+		if (personaBO.grabar(persona) != null) {
+			Utilidad.lanzaMensajeInfo2("sagem.mensaje.registro.guardo", "");
+			banderaGuardar = false;			
+		} else {
+			Utilidad.lanzaMensajeError("sagem.mensaje.problema.registro.no.guardo");
+		}
+	}
+	
+	public void nuevaPersona() {
+		banderaGuardar= true;
+		inicializar();
+	}
+
+	public void inicializar() {
+		persona = new Persona();
+		listaTipoIdentificacion = tipoIdentificacionBO.buscar();
+		listaGenero = generoBO.buscar();		
+	}
+
+	/* Getter y Setter */
+	public List<TipoIdentificacion> getListaTipoIdentificacion() {
+		return listaTipoIdentificacion;
+	}
+
+	public void setListaTipoIdentificacion(List<TipoIdentificacion> listaTipoIdentificacion) {
+		this.listaTipoIdentificacion = listaTipoIdentificacion;
+	}
+
+	public List<Genero> getListaGenero() {
+		return listaGenero;
+	}
+
+	public void setListaGenero(List<Genero> listaGenero) {
+		this.listaGenero = listaGenero;
+	}
+
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
+	}
+
+	public long getTipo_identificacion_id() {
+		return tipo_identificacion_id;
+	}
+
+	public void setTipo_identificacion_id(long tipo_identificacion_id) {
+		this.tipo_identificacion_id = tipo_identificacion_id;
+	}
+
+	public long getGenero_id() {
+		return genero_id;
+	}
+
+	public void setGenero_id(long genero_id) {
+		this.genero_id = genero_id;
+	}
+
+	public boolean isBanderaGuardar() {
+		return banderaGuardar;
+	}
+
+	public void setBanderaGuardar(boolean banderaGuardar) {
+		this.banderaGuardar = banderaGuardar;
+	}
+
+}

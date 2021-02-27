@@ -1,0 +1,7 @@
+package com.ceiba.proing.maestros.dao.impl;
+
+import com.ceiba.proing.maestros.dao.decl.PersonaDAO;
+
+public class PersonaJpaDAO implements PersonaDAO {
+
+}
